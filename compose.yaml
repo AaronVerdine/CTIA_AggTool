@@ -1,0 +1,12 @@
+services:
+  aggtool:
+    build: .
+    image: aggtool:local
+    ports:
+      - "8000:8000"
+    volumes:
+      - aggtool-data:/data
+    restart: unless-stopped
+
+volumes:
+  aggtool-data:

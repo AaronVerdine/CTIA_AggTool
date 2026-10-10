@@ -1,0 +1,12 @@
+.git
+.venv
+.github
+build
+infra
+legacy
+docs
+tests
+**/__pycache__
+.*_cache
+.coverage
+.aggtool-data

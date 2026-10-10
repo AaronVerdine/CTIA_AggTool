@@ -5,7 +5,7 @@ LAMBDA_PY := 3.13
 LAMBDA_PLATFORM := manylinux2014_aarch64
 BUILD := build
 
-.PHONY: install lint test check serve bundle tf-validate clean
+.PHONY: install lint test check serve docker bundle tf-validate clean
 
 install: ## Create a virtualenv with dev dependencies
 	$(PY) -m venv $(VENV)
@@ -24,6 +24,9 @@ check: lint test
 
 serve: ## Run the API and web UI locally on http://localhost:8000
 	$(BIN)/aggtool serve
+
+docker: ## Build and run the local container on http://localhost:8000
+	docker compose up --build
 
 bundle: ## Build the arm64 Lambda bundle at build/lambda.zip
 	rm -rf $(BUILD)/lambda $(BUILD)/dist $(BUILD)/lambda.zip

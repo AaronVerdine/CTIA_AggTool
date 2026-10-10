@@ -77,6 +77,19 @@ make serve          # web UI and API at http://localhost:8000
 
 Upload `samples/tmo_wmc_sc_report.csv` and `samples/csca_report.csv` to try it.
 
+### Docker
+
+```bash
+docker compose up --build   # http://localhost:8000
+```
+
+The container runs the same API, web UI and engine with local file storage
+(kept in the `aggtool-data` volume) and no sign-in. It runs as a non-root user.
+Stop it with `docker compose down`; add `-v` to delete stored jobs.
+
+> VS Code Live Server on its own won't work: the web page needs the Python API
+> behind it. Use `make serve` or Docker instead.
+
 ### CLI
 
 ```bash

@@ -70,6 +70,18 @@ jobs:
           framework: terraform
           quiet: true
 
+  docker:
+    name: Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t aggtool:ci .
+      - name: Smoke test
+        run: |
+          docker run -d --name agg -p 8000:8000 aggtool:ci
+          for i in $(seq 1 30); do curl -fs localhost:8000/health && exit 0; sleep 1; done
+          docker logs agg; exit 1
+
   bundle:
     name: Lambda bundle
     runs-on: ubuntu-latest
