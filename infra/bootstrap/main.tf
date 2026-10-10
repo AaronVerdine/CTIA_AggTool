@@ -22,7 +22,7 @@ variable "region" {
 }
 
 variable "github_repository" {
-  description = "owner/name allowed to deploy, e.g. MeridianIDR-Devs/aggtool."
+  description = "owner/name allowed to deploy, e.g. AaronVerdine/CTIA_AggTool."
   type        = string
 }
 

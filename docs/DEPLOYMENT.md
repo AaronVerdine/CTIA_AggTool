@@ -20,7 +20,7 @@ assume.
 ```bash
 cd infra/bootstrap
 terraform init
-terraform apply -var="github_repository=MeridianIDR-Devs/aggtool"
+terraform apply -var="github_repository=AaronVerdine/CTIA_AggTool"
 # If the account already has the GitHub OIDC provider, add -var="create_oidc_provider=false".
 terraform output   # note state_bucket and deploy_role_arn
 ```

@@ -1,6 +1,6 @@
 # AggTool
 
-[![CI](https://github.com/MeridianIDR-Devs/aggtool/actions/workflows/ci.yml/badge.svg)](https://github.com/MeridianIDR-Devs/aggtool/actions/workflows/ci.yml)
+[![CI](https://github.com/AaronVerdine/CTIA_AggTool/actions/workflows/ci.yml/badge.svg)](https://github.com/AaronVerdine/CTIA_AggTool/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue)
 ![AWS](https://img.shields.io/badge/AWS-serverless-orange)
 ![Terraform](https://img.shields.io/badge/IaC-Terraform-7B42BC)
