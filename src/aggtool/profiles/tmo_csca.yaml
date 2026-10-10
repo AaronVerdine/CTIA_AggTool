@@ -1,0 +1,32 @@
+# Rules from the original AggTool README.
+name: tmo-csca
+version: "1"
+description: >-
+  Combine the T-Mobile WMC SC Report with the CSCA report (scr_reports for WMC)
+  into Short Code | Aggregator | Content Provider | Lease Holder.
+
+primary:
+  label: TMO WMC SC Report
+  columns:
+    short_code: ["Start Application Addresses", "Start Application Address", "Short Code"]
+    aggregator: ["Provider Name", "Aggregator"]
+    content_provider: ["Content Provider Name", "Content Provider"]
+
+lookup:
+  label: CSCA Report
+  columns:
+    short_code: ["Short Code", "Short Codes", "Shortcode", "Code", "Short Code Number"]
+    lease_holder: ["Company", "Company Name", "Lease Holder"]
+
+filters:
+  drop_emails: true          # "remove ... email addresses"
+  numeric_only: true         # short codes are digits only
+  allowed_code_lengths: [5, 6]   # "remove all 3, 4, 7, 8+ digit codes"
+  require_fields: [content_provider]  # "any code that does not have a Content Provider can be eliminated"
+  deduplicate: true          # "all duplicates should be removed"
+
+output:
+  - {field: short_code, header: Short Code}
+  - {field: aggregator, header: Aggregator}
+  - {field: content_provider, header: Content Provider}
+  - {field: lease_holder, header: Lease Holder}

@@ -1,0 +1,14 @@
+WMC SC Report,,,,,
+Generated,2026-10-01,,,,
+Row,Start Application Addresses,Provider Name,Content Provider Name,Status,Activation Date
+1,22222,Acme Messaging,Northwind Alerts,Active,2025-01-14
+2,333,Acme Messaging,Short Lived Co,Active,2025-02-02
+3,55555,Blue Relay,,Active,2025-03-11
+4,22222,Acme Messaging,Northwind Alerts,Active,2025-01-14
+5,alerts@contoso.example,Blue Relay,Contoso Mail,Active,2025-04-09
+6,666666,Cobalt SMS,Fabrikam Rewards,Active,2025-04-22
+7,12345,Cobalt SMS,Tailspin Travel,Active,2025-05-30
+8,98765,Blue Relay,Wingtip Pharmacy Notices,Active,2025-06-18
+9,1234567,Acme Messaging,Too Long Inc,Active,2025-07-01
+10,40404,Cobalt SMS,Litware Polls,Suspended,2025-07-15
+11,  31313 ,Blue Relay,Adventure Works,Active,2025-08-08

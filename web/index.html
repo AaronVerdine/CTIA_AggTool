@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AggTool</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="favicon.svg" alt="" width="28" height="28">
+      <div>
+        <h1>AggTool</h1>
+        <p class="tagline">Short code report aggregation and reconciliation</p>
+      </div>
+    </div>
+    <div class="user">
+      <span id="user-email" class="muted"></span>
+      <button id="sign-out" class="ghost" hidden>Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="signed-out" class="card center" hidden>
+      <h2>Sign in to continue</h2>
+      <p class="muted">Access is invite-only. Ask an administrator for an account.</p>
+      <button id="sign-in" class="primary">Sign in</button>
+    </section>
+
+    <div id="app" hidden>
+      <section class="card">
+        <h2>New aggregation</h2>
+        <form id="job-form">
+          <div class="grid2">
+            <label class="drop">
+              <span class="drop-title">Carrier report</span>
+              <span class="muted" id="primary-label">TMO WMC SC Report (.csv or .xlsx)</span>
+              <input type="file" id="primary-file" accept=".csv,.txt,.xlsx,.xlsm" required>
+            </label>
+            <label class="drop">
+              <span class="drop-title">Registry report</span>
+              <span class="muted" id="lookup-label">CSCA Report (.csv or .xlsx)</span>
+              <input type="file" id="lookup-file" accept=".csv,.txt,.xlsx,.xlsm" required>
+            </label>
+          </div>
+          <div class="row">
+            <label class="inline">Profile
+              <select id="profile"></select>
+            </label>
+            <button type="submit" class="primary" id="run">Run</button>
+          </div>
+        </form>
+        <ol class="steps" id="steps" hidden>
+          <li data-step="create">Create job</li>
+          <li data-step="upload">Upload files</li>
+          <li data-step="process">Process</li>
+          <li data-step="done">Results ready</li>
+        </ol>
+        <p id="error" class="error" role="alert" hidden></p>
+      </section>
+
+      <section class="card" id="result" hidden>
+        <div class="row spread">
+          <h2>Result</h2>
+          <div class="downloads">
+            <button data-artifact="xlsx" class="primary">Excel workbook</button>
+            <button data-artifact="csv" class="ghost">CSV</button>
+            <button data-artifact="report" class="ghost">Audit report (JSON)</button>
+          </div>
+        </div>
+        <div class="tiles" id="tiles"></div>
+        <h3>Rows removed</h3>
+        <ul class="reasons" id="reasons"></ul>
+      </section>
+
+      <section class="card">
+        <div class="row spread">
+          <h2>History</h2>
+          <button class="ghost" id="refresh">Refresh</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Started</th><th>Carrier file</th><th>Registry file</th><th>Status</th><th>Codes</th><th></th></tr>
+            </thead>
+            <tbody id="history"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="muted">AggTool · <a href="https://github.com/MeridianIDR-Devs/aggtool">source</a></footer>
+</body>
+</html>

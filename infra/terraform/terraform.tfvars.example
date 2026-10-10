@@ -1,0 +1,6 @@
+environment       = "dev"
+region            = "us-east-1"
+alarm_email       = "you@example.com"
+github_repository = "MeridianIDR-Devs/aggtool"
+# Uncomment to sign in from a locally served copy of the web UI.
+# extra_web_origins = ["http://localhost:8000"]

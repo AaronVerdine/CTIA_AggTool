@@ -1,0 +1,72 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    paths: ["src/**", "web/**", "infra/terraform/**", "pyproject.toml", ".github/workflows/deploy.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # OIDC to AWS; no stored access keys
+
+concurrency:
+  group: deploy-dev
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    # Skipped until the repository variables from docs/DEPLOYMENT.md are set.
+    if: vars.AWS_DEPLOY_ROLE_ARN != ''
+    runs-on: ubuntu-latest
+    environment: dev
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION || 'us-east-1' }}
+      TF_IN_AUTOMATION: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Build Lambda bundle
+        run: python -m venv .venv && make bundle
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.5
+          terraform_wrapper: false
+
+      - name: Terraform init
+        working-directory: infra/terraform
+        run: |
+          terraform init -input=false \
+            -backend-config="bucket=${{ vars.TF_STATE_BUCKET }}" \
+            -backend-config="key=aggtool/dev.tfstate" \
+            -backend-config="region=${AWS_REGION}"
+
+      - name: Terraform apply
+        working-directory: infra/terraform
+        run: |
+          terraform apply -input=false -auto-approve \
+            -var="environment=dev" \
+            -var="region=${AWS_REGION}" \
+            -var="alarm_email=${{ vars.ALARM_EMAIL }}" \
+            -var="github_repository=${{ github.repository }}"
+
+      - name: Invalidate CDN and smoke test
+        working-directory: infra/terraform
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "$(terraform output -raw cloudfront_distribution_id)" \
+            --paths "/*" > /dev/null
+          api="$(terraform output -raw api_url)"
+          curl -fsS --retry 5 --retry-delay 3 "$api/health"
+          # Protected routes must reject anonymous calls.
+          test "$(curl -s -o /dev/null -w '%{http_code}' "$api/jobs")" = "401"
+          echo "### Deployed" >> "$GITHUB_STEP_SUMMARY"
+          echo "Web UI: $(terraform output -raw web_url)" >> "$GITHUB_STEP_SUMMARY"
