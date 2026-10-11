@@ -6,6 +6,7 @@ then **continuous deployment** from GitHub Actions on every push to `main`.
 ## Prerequisites
 
 - An AWS account and an admin profile in the AWS CLI (`aws sts get-caller-identity` works).
+  See [AWS_CLI_SETUP.md](AWS_CLI_SETUP.md).
 - A cost guard: in **Billing → Budgets**, create a $5 monthly budget with an email alert. At demo
   traffic the stack fits within the AWS Free Tier apart from the KMS key (about $1/month).
 - Terraform ≥ 1.10, Python 3.12+, `make`, `zip`.
